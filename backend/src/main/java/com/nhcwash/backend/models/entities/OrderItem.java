@@ -3,6 +3,8 @@ package com.nhcwash.backend.models.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "order_items")
 @Data
@@ -11,15 +13,25 @@ import lombok.*;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long orderItemId;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "service_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", nullable = false)
     private Service service;
 
+    @Column(name = "article_type", length = 80)
+    private String articleType;
+
+    @Column(nullable = false)
     private Integer quantity;
+
+    @Column(name = "unit_price_estimated", precision = 10, scale = 2)
+    private BigDecimal unitPriceEstimated;
+
+    @Column(name = "line_total_estimated", precision = 10, scale = 2)
+    private BigDecimal lineTotalEstimated;
 }
