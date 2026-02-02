@@ -17,6 +17,10 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serviceId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private ServiceCategory category;
+
     @Column(nullable = false, length = 120)
     private String name;
 
