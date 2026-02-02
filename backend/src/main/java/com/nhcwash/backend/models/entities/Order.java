@@ -1,5 +1,6 @@
 package com.nhcwash.backend.models.entities;
 
+import com.nhcwash.backend.models.enumerations.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,8 +24,9 @@ public class Order {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Status: PENDING, RECEIVED, PROCESSING, READY, DELIVERED, CANCELLED
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private OrderStatus status; // PENDING, RECEIVED, PROCESSING, READY, DELIVERED, CANCELLED
 
     @Column(name = "estimated_total", precision = 10, scale = 2)
     private BigDecimal estimatedTotal;

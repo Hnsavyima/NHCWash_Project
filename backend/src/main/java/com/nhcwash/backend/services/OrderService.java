@@ -11,6 +11,7 @@ import com.nhcwash.backend.models.dtos.OrderRequestDTO;
 import com.nhcwash.backend.models.entities.Order;
 import com.nhcwash.backend.models.entities.OrderItem;
 import com.nhcwash.backend.models.entities.User;
+import com.nhcwash.backend.models.enumerations.OrderStatus;
 import com.nhcwash.backend.repositories.OrderRepository;
 import com.nhcwash.backend.repositories.ServiceRepository;
 import com.nhcwash.backend.repositories.UserRepository;
@@ -30,7 +31,7 @@ public class OrderService {
         User client = userRepository.findById(clientId).orElseThrow();
         Order order = new Order();
         order.setClient(client);
-        order.setStatus("PENDING");
+        order.setStatus(OrderStatus.RECEIVED);
         order.setSpecialInstructions(dto.getInstructions());
 
         List<OrderItem> items = dto.getItems().stream().map(i -> {
