@@ -37,11 +37,12 @@ public class DtoConverter {
 
 
     public ServiceDTO toServiceDto(Service s, String lang) {
+        if (s == null) return null;
         ServiceDTO dto = new ServiceDTO();
-        dto.setId(s.getId());
-        dto.setPrice(s.getBasePrice());
-        dto.setName("en".equals(lang) ? s.getNameEn() : s.getNameFr());
-        dto.setDescription("en".equals(lang) ? s.getDescriptionEn() : s.getDescriptionFr());
+        dto.setId(s.getServiceId());
+        dto.setPrice(s.getBasePrice() != null ? s.getBasePrice().doubleValue() : null);
+        dto.setName(s.getName());
+        dto.setDescription(s.getDescription());
         return dto;
     }
 
@@ -61,11 +62,10 @@ public class DtoConverter {
 
         List<OrderItemDTO> itemDtos = order.getItems().stream().map(item -> {
             OrderItemDTO itemDto = new OrderItemDTO();
-            // Utilisation de la logique de langue pour le nom du service
-            itemDto.setServiceName("en".equals(lang) ? 
-                item.getService().getNameEn() : item.getService().getNameFr());
+            itemDto.setServiceName(item.getService() != null ? item.getService().getName() : null);
             itemDto.setQuantity(item.getQuantity());
-            itemDto.setUnitPrice(item.getService().getBasePrice());
+            itemDto.setUnitPrice(item.getService() != null && item.getService().getBasePrice() != null
+                    ? item.getService().getBasePrice().doubleValue() : null);
             return itemDto;
         }).collect(Collectors.toList());
 

@@ -49,7 +49,7 @@ public class OrderService {
 
         // Correction ici aussi pour le calcul du prix
         double total = items.stream()
-                .mapToDouble(i -> i.getService().getBasePrice() * i.getQuantity())
+                .mapToDouble(i -> i.getService().getBasePrice().doubleValue() * i.getQuantity())
                 .sum();
         order.setTotalPrice(total);
 
