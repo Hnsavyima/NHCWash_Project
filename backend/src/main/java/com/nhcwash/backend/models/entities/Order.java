@@ -48,6 +48,9 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Appointment> appointments = new ArrayList<>();
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Invoice invoice;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
