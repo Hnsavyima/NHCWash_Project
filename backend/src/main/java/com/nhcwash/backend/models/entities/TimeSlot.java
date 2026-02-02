@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "time_slots")
@@ -31,4 +33,7 @@ public class TimeSlot {
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
+
+    @OneToMany(mappedBy = "slot", cascade = CascadeType.ALL)
+    private List<Appointment> appointments = new ArrayList<>();
 }
