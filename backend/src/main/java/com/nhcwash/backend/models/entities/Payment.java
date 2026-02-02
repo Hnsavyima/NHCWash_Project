@@ -1,5 +1,8 @@
 package com.nhcwash.backend.models.entities;
 
+import com.nhcwash.backend.models.enumerations.PaymentMethod;
+import com.nhcwash.backend.models.enumerations.PaymentProvider;
+import com.nhcwash.backend.models.enumerations.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,8 +38,17 @@ public class Payment {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    private String method; // CARD, CASH, POS_TERMINAL
-    private String status; // PENDING, SUCCEEDED, FAILED, REFUNDED
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private PaymentProvider provider; // STRIPE | PAYPAL | ONSITE
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private PaymentMethod method; // CARD | CASH | POS_TERMINAL
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private PaymentStatus status; // PENDING | SUCCEEDED | FAILED | REFUNDED
 
     @PrePersist
     protected void onCreate() {
