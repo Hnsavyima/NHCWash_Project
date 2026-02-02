@@ -36,21 +36,25 @@ public class OrderService {
         List<OrderItem> items = dto.getItems().stream().map(i -> {
             OrderItem item = new OrderItem();
 
-            // Correction ici : on utilise le nom complet de l'entité pour éviter le conflit
             com.nhcwash.backend.models.entities.Service s = serviceRepository.findById(i.getServiceId())
                     .orElseThrow(() -> new RuntimeException("Service non trouvé"));
 
             item.setService(s);
             item.setQuantity(i.getQuantity());
             item.setOrder(order);
+            item.setArticleType(s.getName());
+            item.setUnitPriceEstimated(s.getBasePrice());
+            if (s.getBasePrice() != null) {
+                item.setLineTotalEstimated(s.getBasePrice().multiply(BigDecimal.valueOf(i.getQuantity())));
+            }
             return item;
         }).collect(Collectors.toList());
 
         order.setItems(items);
 
-        // Correction ici aussi pour le calcul du prix
         BigDecimal estimatedTotal = items.stream()
-                .map(i -> i.getService().getBasePrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                .map(OrderItem::getLineTotalEstimated)
+                .filter(java.util.Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         order.setEstimatedTotal(estimatedTotal);
         order.setFinalTotal(null);

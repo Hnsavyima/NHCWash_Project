@@ -64,8 +64,8 @@ public class DtoConverter {
             OrderItemDTO itemDto = new OrderItemDTO();
             itemDto.setServiceName(item.getService() != null ? item.getService().getName() : null);
             itemDto.setQuantity(item.getQuantity());
-            itemDto.setUnitPrice(item.getService() != null && item.getService().getBasePrice() != null
-                    ? item.getService().getBasePrice().doubleValue() : null);
+            itemDto.setUnitPrice(item.getUnitPriceEstimated() != null
+                    ? item.getUnitPriceEstimated().doubleValue() : null);
             return itemDto;
         }).collect(Collectors.toList());
 
