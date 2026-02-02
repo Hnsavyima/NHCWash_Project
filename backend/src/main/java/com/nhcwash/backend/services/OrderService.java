@@ -32,7 +32,6 @@ public class OrderService {
         Order order = new Order();
         order.setClient(client);
         order.setStatus(OrderStatus.RECEIVED);
-        order.setSpecialInstructions(dto.getInstructions());
 
         List<OrderItem> items = dto.getItems().stream().map(i -> {
             OrderItem item = new OrderItem();

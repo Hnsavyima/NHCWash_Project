@@ -57,7 +57,7 @@ public class DtoConverter {
         dto.setId(order.getOrderId());
         dto.setStatus(order.getStatus() != null ? order.getStatus().name() : null);
         dto.setTotalPrice(order.getFinalTotal() != null ? order.getFinalTotal().doubleValue() : null);
-        dto.setCreatedAt(order.getCreatedAt().toString());
+        dto.setCreatedAt(order.getCreatedAt() != null ? order.getCreatedAt().toString() : null);
         dto.setPaymentStatus(order.getPayment() != null ? order.getPayment().getStatus() : "UNPAID");
 
         List<OrderItemDTO> itemDtos = order.getItems().stream().map(item -> {
