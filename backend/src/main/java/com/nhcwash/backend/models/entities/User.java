@@ -45,6 +45,9 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserAddress> addresses = new ArrayList<>();
+
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
