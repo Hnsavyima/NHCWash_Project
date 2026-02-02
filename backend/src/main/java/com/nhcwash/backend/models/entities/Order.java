@@ -2,6 +2,8 @@ package com.nhcwash.backend.models.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +26,11 @@ public class Order {
     // Status: PENDING, RECEIVED, PROCESSING, READY, DELIVERED, CANCELLED
     private String status;
 
-    private Double totalPrice;
+    @Column(name = "estimated_total", precision = 10, scale = 2)
+    private BigDecimal estimatedTotal;
+
+    @Column(name = "final_total", precision = 10, scale = 2)
+    private BigDecimal finalTotal;
 
     @Column(columnDefinition = "TEXT")
     private String specialInstructions;

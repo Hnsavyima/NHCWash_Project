@@ -1,5 +1,6 @@
 package com.nhcwash.backend.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,10 +49,11 @@ public class OrderService {
         order.setItems(items);
 
         // Correction ici aussi pour le calcul du prix
-        double total = items.stream()
-                .mapToDouble(i -> i.getService().getBasePrice().doubleValue() * i.getQuantity())
-                .sum();
-        order.setTotalPrice(total);
+        BigDecimal estimatedTotal = items.stream()
+                .map(i -> i.getService().getBasePrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        order.setEstimatedTotal(estimatedTotal);
+        order.setFinalTotal(null);
 
         return orderRepository.save(order);
     }
