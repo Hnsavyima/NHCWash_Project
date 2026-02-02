@@ -3,6 +3,9 @@ package com.nhcwash.backend.models.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "user_addresses")
 @Data
@@ -40,4 +43,7 @@ public class UserAddress {
 
     @Column(name = "is_default", nullable = false)
     private Boolean isDefault = false;
+
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    private List<Appointment> appointments = new ArrayList<>();
 }
