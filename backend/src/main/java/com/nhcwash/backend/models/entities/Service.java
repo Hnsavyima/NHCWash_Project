@@ -18,4 +18,3 @@ public class Service {
     private String descriptionEn;
     private Double basePrice;
 }
-
