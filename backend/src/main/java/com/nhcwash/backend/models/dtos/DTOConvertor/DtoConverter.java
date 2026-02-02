@@ -54,7 +54,7 @@ public class DtoConverter {
         if (order == null) return null;
 
         OrderDTO dto = new OrderDTO();
-        dto.setId(order.getId());
+        dto.setId(order.getOrderId());
         dto.setStatus(order.getStatus());
         dto.setTotalPrice(order.getTotalPrice());
         dto.setCreatedAt(order.getCreatedAt().toString());
