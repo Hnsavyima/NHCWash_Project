@@ -11,7 +11,6 @@ import com.nhcwash.backend.models.dtos.OrderItemDTO;
 import com.nhcwash.backend.models.dtos.ServiceDTO;
 import com.nhcwash.backend.models.dtos.UserDTO;
 import com.nhcwash.backend.models.entities.Order;
-import com.nhcwash.backend.models.entities.Role;
 import com.nhcwash.backend.models.entities.Service;
 import com.nhcwash.backend.models.entities.User;
 
@@ -23,15 +22,14 @@ public class DtoConverter {
         if (user == null) return null;
 
         UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
+        dto.setId(user.getUserId());
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
-        
-        // Conversion de la liste de rôles
-        Set<String> roleNames = user.getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.toSet());
+
+        Set<String> roleNames = user.getRole() != null
+                ? Set.of(user.getRole().getName())
+                : Set.of();
         dto.setRoles(roleNames);
 
         return dto;

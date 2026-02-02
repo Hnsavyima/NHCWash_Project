@@ -66,25 +66,20 @@ public class AuthController {
         user.setPhone(signUpRequest.getPhone());
 
         // CHIFFREMENT DU MOT DE PASSE (F4)
-        user.setPassword(encoder.encode(signUpRequest.getPassword()));
+        user.setPasswordHash(encoder.encode(signUpRequest.getPassword()));
 
-        // Attribution des rôles
+        // Attribution du rôle
         Set<String> strRoles = signUpRequest.getRoles();
-        Set<Role> roles = new HashSet<>();
-
+        Role role;
         if (strRoles == null || strRoles.isEmpty()) {
-            Role clientRole = roleRepository.findByName("ROLE_CLIENT")
+            role = roleRepository.findByName("ROLE_CLIENT")
                     .orElseThrow(() -> new RuntimeException("Erreur: Rôle non trouvé."));
-            roles.add(clientRole);
         } else {
-            strRoles.forEach(role -> {
-                Role foundRole = roleRepository.findByName(role)
-                        .orElseThrow(() -> new RuntimeException("Erreur: Rôle " + role + " non trouvé."));
-                roles.add(foundRole);
-            });
+            String roleName = strRoles.iterator().next();
+            role = roleRepository.findByName(roleName)
+                    .orElseThrow(() -> new RuntimeException("Erreur: Rôle " + roleName + " non trouvé."));
         }
-
-        user.setRoles(roles);
+        user.setRole(role);
         userRepository.save(user);
 
         return ResponseEntity.ok("Utilisateur enregistré avec succès !");
