@@ -35,7 +35,7 @@ public class PaymentService {
 
     @Transactional
     public PaymentProcessingResult processPayment(PaymentRequestDTO dto, Long userId) {
-        Order order = orderRepository.findById(dto.getOrderId())
+        Order order = orderRepository.findWithDetailsById(dto.getOrderId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Commande introuvable"));
 
         if (!order.getClient().getUserId().equals(userId)) {

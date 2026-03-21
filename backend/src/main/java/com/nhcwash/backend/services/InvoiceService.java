@@ -81,7 +81,7 @@ public class InvoiceService {
 
     @Transactional(readOnly = true)
     public Invoice getInvoiceByIdForUser(Long invoiceId, Long userId) {
-        Invoice invoice = invoiceRepository.findById(invoiceId)
+        Invoice invoice = invoiceRepository.findWithDetailsById(invoiceId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Facture introuvable"));
         if (!invoice.getOrder().getClient().getUserId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Accès refusé à cette facture");
