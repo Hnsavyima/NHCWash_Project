@@ -12,6 +12,7 @@ import com.nhcwash.backend.models.dtos.OrderDTO;
 import com.nhcwash.backend.models.dtos.OrderItemDTO;
 import com.nhcwash.backend.models.dtos.PaymentDTO;
 import com.nhcwash.backend.models.dtos.ServiceDTO;
+import com.nhcwash.backend.models.dtos.UserAddressDTO;
 import com.nhcwash.backend.models.dtos.UserDTO;
 import com.nhcwash.backend.models.entities.Invoice;
 import com.nhcwash.backend.models.entities.InvoiceLine;
@@ -19,6 +20,7 @@ import com.nhcwash.backend.models.entities.Order;
 import com.nhcwash.backend.models.entities.Payment;
 import com.nhcwash.backend.models.entities.Service;
 import com.nhcwash.backend.models.entities.User;
+import com.nhcwash.backend.models.entities.UserAddress;
 
 @Component
 public class DtoConverter {
@@ -32,6 +34,7 @@ public class DtoConverter {
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
+        dto.setPhone(user.getPhone());
 
         Set<String> roleNames = user.getRole() != null
                 ? Set.of(user.getRole().getName())
@@ -41,6 +44,20 @@ public class DtoConverter {
         return dto;
     }
 
+    public UserAddressDTO toUserAddressDto(UserAddress address) {
+        if (address == null) return null;
+        UserAddressDTO dto = new UserAddressDTO();
+        dto.setId(address.getAddressId());
+        dto.setLabel(address.getLabel());
+        dto.setStreet(address.getStreet());
+        dto.setNumber(address.getNumber());
+        dto.setBox(address.getBox());
+        dto.setPostalCode(address.getPostalCode());
+        dto.setCity(address.getCity());
+        dto.setCountry(address.getCountry());
+        dto.setDefaultAddress(address.getIsDefault());
+        return dto;
+    }
 
     public ServiceDTO toServiceDto(Service s, String lang) {
         if (s == null) return null;
