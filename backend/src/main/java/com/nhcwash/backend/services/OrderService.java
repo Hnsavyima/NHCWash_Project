@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service; // C'est l'annotation Spring
+import org.springframework.stereotype.Service;
 
 import com.nhcwash.backend.models.dtos.OrderRequestDTO;
 import com.nhcwash.backend.models.entities.Order;
@@ -15,17 +14,16 @@ import com.nhcwash.backend.models.enumerations.OrderStatus;
 import com.nhcwash.backend.repositories.OrderRepository;
 import com.nhcwash.backend.repositories.ServiceRepository;
 import com.nhcwash.backend.repositories.UserRepository;
-// ATTENTION : Ne pas importer l'entité Service ici si vous utilisez l'annotation @Service, 
-// ou alors utilisez le nom complet ci-dessous.
 
-@Service // Annotation Spring
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public class OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private ServiceRepository serviceRepository;
-    @Autowired
-    private UserRepository userRepository;
+
+    private final OrderRepository orderRepository;
+    private final ServiceRepository serviceRepository;
+    private final UserRepository userRepository;
 
     public Order createOrder(OrderRequestDTO dto, Long clientId) {
         User client = userRepository.findById(clientId).orElseThrow();

@@ -1,6 +1,5 @@
 package com.nhcwash.backend.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -17,21 +16,22 @@ import com.nhcwash.backend.models.dtos.OrderRequestDTO;
 import com.nhcwash.backend.repositories.UserRepository;
 import com.nhcwash.backend.services.OrderService;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api/orders")
+@RequiredArgsConstructor
 public class OrderController {
 
     private static final String DEFAULT_LANG = "fr";
 
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private DtoConverter dtoConverter;
+    private final OrderService orderService;
+    private final UserRepository userRepository;
+    private final DtoConverter dtoConverter;
 
     @PostMapping
-    public ResponseEntity<OrderDTO> placeOrder(@RequestBody OrderRequestDTO dto) {
+    public ResponseEntity<OrderDTO> placeOrder(@Valid @RequestBody OrderRequestDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()
                 || authentication instanceof AnonymousAuthenticationToken) {
