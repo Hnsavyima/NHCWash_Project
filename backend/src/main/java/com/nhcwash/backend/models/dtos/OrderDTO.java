@@ -10,6 +10,7 @@ public class OrderDTO {
     private String status;
     private Double totalPrice;
     private String createdAt;
+    private String instructions;
     private List<OrderItemDTO> items;
     private String paymentStatus;
 }

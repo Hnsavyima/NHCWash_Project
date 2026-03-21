@@ -64,6 +64,7 @@ public class DtoConverter {
         dto.setStatus(order.getStatus() != null ? order.getStatus().name() : null);
         dto.setTotalPrice(order.getFinalTotal() != null ? order.getFinalTotal().doubleValue() : null);
         dto.setCreatedAt(order.getCreatedAt() != null ? order.getCreatedAt().toString() : null);
+        dto.setInstructions(order.getInstructions());
         String paymentStatus = "PENDING";
         if (order.getPayments() != null && !order.getPayments().isEmpty()) {
             paymentStatus = order.getPayments().get(order.getPayments().size() - 1).getStatus().name();
