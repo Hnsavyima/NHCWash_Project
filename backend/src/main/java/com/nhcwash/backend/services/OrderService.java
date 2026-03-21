@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.nhcwash.backend.models.dtos.OrderRequestDTO;
 import com.nhcwash.backend.models.entities.Order;
@@ -59,5 +62,22 @@ public class OrderService {
         order.setFinalTotal(null);
 
         return orderRepository.save(order);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Order> findOrdersForClient(Long clientId) {
+        return orderRepository.findByClient_UserIdOrderByCreatedAtDesc(clientId);
+    }
+
+    @Transactional(readOnly = true)
+    public Order getOrderForClient(Long orderId, Long clientId) {
+        return orderRepository.findWithDetailsByIdAndClient_UserId(orderId, clientId)
+                .orElseThrow(() -> {
+                    if (orderRepository.existsById(orderId)) {
+                        return new ResponseStatusException(HttpStatus.FORBIDDEN,
+                                "Cette commande n'appartient pas à l'utilisateur");
+                    }
+                    return new ResponseStatusException(HttpStatus.NOT_FOUND, "Commande introuvable");
+                });
     }
 }
