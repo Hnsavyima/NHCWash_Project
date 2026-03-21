@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -68,17 +68,8 @@ public class AuthController {
         // CHIFFREMENT DU MOT DE PASSE (F4)
         user.setPasswordHash(encoder.encode(signUpRequest.getPassword()));
 
-        // Attribution du rôle
-        Set<String> strRoles = signUpRequest.getRoles();
-        Role role;
-        if (strRoles == null || strRoles.isEmpty()) {
-            role = roleRepository.findByName("ROLE_CLIENT")
-                    .orElseThrow(() -> new RuntimeException("Erreur: Rôle non trouvé."));
-        } else {
-            String roleName = strRoles.iterator().next();
-            role = roleRepository.findByName(roleName)
-                    .orElseThrow(() -> new RuntimeException("Erreur: Rôle " + roleName + " non trouvé."));
-        }
+        Role role = roleRepository.findByName("ROLE_CLIENT")
+                .orElseThrow(() -> new RuntimeException("Erreur: Rôle ROLE_CLIENT non trouvé."));
         user.setRole(role);
         userRepository.save(user);
 
