@@ -6,19 +6,23 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.nhcwash.backend.models.dtos.AppointmentDTO;
 import com.nhcwash.backend.models.dtos.InvoiceDTO;
 import com.nhcwash.backend.models.dtos.InvoiceLineDTO;
 import com.nhcwash.backend.models.dtos.OrderDTO;
 import com.nhcwash.backend.models.dtos.OrderItemDTO;
 import com.nhcwash.backend.models.dtos.PaymentDTO;
 import com.nhcwash.backend.models.dtos.ServiceDTO;
+import com.nhcwash.backend.models.dtos.TimeSlotDTO;
 import com.nhcwash.backend.models.dtos.UserAddressDTO;
 import com.nhcwash.backend.models.dtos.UserDTO;
+import com.nhcwash.backend.models.entities.Appointment;
 import com.nhcwash.backend.models.entities.Invoice;
 import com.nhcwash.backend.models.entities.InvoiceLine;
 import com.nhcwash.backend.models.entities.Order;
 import com.nhcwash.backend.models.entities.Payment;
 import com.nhcwash.backend.models.entities.Service;
+import com.nhcwash.backend.models.entities.TimeSlot;
 import com.nhcwash.backend.models.entities.User;
 import com.nhcwash.backend.models.entities.UserAddress;
 
@@ -41,6 +45,33 @@ public class DtoConverter {
                 : Set.of();
         dto.setRoles(roleNames);
 
+        return dto;
+    }
+
+    public TimeSlotDTO toTimeSlotDto(TimeSlot slot, Integer remainingCapacity) {
+        if (slot == null) return null;
+        TimeSlotDTO dto = new TimeSlotDTO();
+        dto.setId(slot.getSlotId());
+        dto.setSlotType(slot.getSlotType());
+        dto.setStartAt(slot.getStartAt());
+        dto.setEndAt(slot.getEndAt());
+        dto.setCapacityMax(slot.getCapacityMax());
+        dto.setRemainingCapacity(remainingCapacity);
+        dto.setActive(slot.getIsActive());
+        return dto;
+    }
+
+    public AppointmentDTO toAppointmentDto(Appointment appointment) {
+        if (appointment == null) return null;
+        AppointmentDTO dto = new AppointmentDTO();
+        dto.setId(appointment.getAppointmentId());
+        dto.setOrderId(appointment.getOrder() != null ? appointment.getOrder().getOrderId() : null);
+        dto.setTimeSlotId(appointment.getSlot() != null ? appointment.getSlot().getSlotId() : null);
+        dto.setAddressId(appointment.getAddress() != null ? appointment.getAddress().getAddressId() : null);
+        dto.setAppointmentType(appointment.getAppointmentType());
+        dto.setStatus(appointment.getStatus());
+        dto.setCreatedAt(appointment.getCreatedAt());
+        dto.setUpdatedAt(appointment.getUpdatedAt());
         return dto;
     }
 
