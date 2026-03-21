@@ -39,6 +39,9 @@ public class Order {
     @Column(name = "final_total", precision = 10, scale = 2)
     private BigDecimal finalTotal;
 
+    @Column(columnDefinition = "TEXT")
+    private String instructions;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 
