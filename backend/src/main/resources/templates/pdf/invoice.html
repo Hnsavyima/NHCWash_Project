@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <title th:text="'Facture ' + ${invoiceNumber}">Facture</title>
+  <style type="text/css">
+    @page { size: A4; margin: 18mm 16mm; }
+    body { font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: #1f2937; margin: 0; padding: 0; }
+    .outer { width: 100%; }
+    /* Simulated gradient header (Flying Saucer: avoid CSS linear-gradient) */
+    table.hero { width: 100%; border-collapse: collapse; margin: 0 0 14px 0; }
+    table.hero td { vertical-align: top; color: #ffffff; padding: 18px 20px; }
+    td.hero-left { background-color: #0b5394; width: 58%; }
+    td.hero-right { background-color: #117a65; width: 42%; text-align: right; }
+    .brand { font-size: 22px; font-weight: bold; letter-spacing: -0.02em; }
+    .tagline { margin-top: 6px; font-size: 11px; line-height: 1.35; color: #f8fafc; }
+    .doc-label { font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.2em; color: #e2e8f0; }
+    .doc-num { margin-top: 8px; font-size: 15px; font-weight: bold; word-break: break-all; }
+    .company { margin: 0 0 16px 0; font-size: 10px; line-height: 1.5; color: #4b5563; white-space: pre-line; }
+    .vat-inline { font-weight: bold; color: #0b5394; }
+    table.grid { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    table.grid td { vertical-align: top; width: 50%; padding: 0 8px 0 0; }
+    .lbl { font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; color: #0b5394; }
+    .bill-name { margin-top: 8px; font-size: 12px; font-weight: bold; color: #111827; word-wrap: break-word; }
+    .bill-email { margin-top: 4px; font-size: 10px; color: #4b5563; word-break: break-all; }
+    table.meta { width: 100%; border-collapse: collapse; font-size: 10px; }
+    table.meta td { padding: 3px 0; vertical-align: top; }
+    table.meta td.k { width: 42%; text-align: right; padding-right: 8px; color: #6b7280; }
+    table.meta td.v { font-weight: 600; color: #111827; word-wrap: break-word; }
+    table.lines { width: 100%; border-collapse: collapse; margin-top: 6px; }
+    table.lines th { text-align: left; background-color: #eff6ff; color: #0b5394; padding: 8px 6px; font-size: 9px; font-weight: bold;
+      border-bottom: 2px solid #0b5394; }
+    table.lines th.num { text-align: right; }
+    table.lines td { padding: 8px 6px; border-bottom: 1px solid #e5e7eb; }
+    table.lines td.num { text-align: right; }
+    .tot-wrap { margin-top: 18px; border-top: 2px solid #e5e7eb; padding-top: 14px; }
+    table.totals { width: 300px; margin-left: auto; border-collapse: collapse; font-size: 10px; }
+    table.totals td { padding: 4px 0; }
+    table.totals td.tot-lbl { text-align: left; color: #6b7280; font-weight: normal; text-transform: none; letter-spacing: normal; }
+    table.totals td.val { text-align: right; font-weight: 600; }
+    .grand-box { margin-top: 10px; padding: 12px 14px; border: 1px solid #d1d5db; background-color: #f3f4f6; border-radius: 4px; }
+    .grand-box table { width: 100%; border-collapse: collapse; }
+    .grand-box td { font-size: 13px; font-weight: bold; color: #111827; }
+    .grand-box td.amt { text-align: right; font-size: 16px; }
+    .footer { margin-top: 20px; font-size: 9px; color: #9ca3af; text-align: center; line-height: 1.4; }
+  </style>
+</head>
+<body>
+<div class="outer">
+  <table class="hero">
+    <tr>
+      <td class="hero-left">
+        <div class="brand" th:text="${companyName}">NHCWash</div>
+        <div class="tagline" th:text="${tagline}">Pressing &amp; blanchisserie</div>
+      </td>
+      <td class="hero-right">
+        <div class="doc-label" th:text="${documentTitle}">FACTURE</div>
+        <div class="doc-num" th:text="${invoiceNumber}">INV-1</div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="company">
+    <span th:utext="${companyAddressHtml}">Adresse</span><br/>
+    <span class="vat-inline" th:text="${companyVat}">N° TVA</span>
+  </div>
+
+  <table class="grid">
+    <tr>
+      <td>
+        <div class="lbl" th:text="${billToLabel}">Facturé à</div>
+        <div class="bill-name" th:text="${customerName}">—</div>
+        <div class="bill-email" th:text="${customerEmail}">—</div>
+      </td>
+      <td>
+        <table class="meta">
+          <tr>
+            <td class="k" th:text="${metaOrderRefLabel}">Commande</td>
+            <td class="v" th:text="${orderRef}">CMD-001</td>
+          </tr>
+          <tr>
+            <td class="k" th:text="${metaDateLabel}">Date</td>
+            <td class="v" th:text="${orderDateStr}">—</td>
+          </tr>
+          <tr>
+            <td class="k" th:text="${metaStatusLabel}">Statut</td>
+            <td class="v" th:text="${orderStatusLabel}">—</td>
+          </tr>
+          <tr>
+            <td class="k" th:text="${metaPaymentLabel}">Paiement</td>
+            <td class="v" th:text="${paymentStatusLabel}">—</td>
+          </tr>
+          <tr th:if="${paymentMeansVisible}">
+            <td class="k" th:text="${metaPaymentMeansLabel}">Moyen</td>
+            <td class="v" th:text="${paymentMeansText}">—</td>
+          </tr>
+          <tr th:if="${paymentRefVisible}">
+            <td class="k" th:text="${metaPaymentRefLabel}">Réf.</td>
+            <td class="v" th:text="${paymentRefText}">—</td>
+          </tr>
+          <tr>
+            <td class="k" th:text="${metaIssuedLabel}">Émis le</td>
+            <td class="v" th:text="${issuedAt}">—</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <div class="lbl" th:text="${linesSectionLabel}">Détail</div>
+  <table class="lines">
+    <thead>
+      <tr>
+        <th th:text="${colService}">Service</th>
+        <th class="num" style="width:10%;" th:text="${colQty}">Qté</th>
+        <th class="num" style="width:18%;" th:text="${colUnit}">Prix unit.</th>
+        <th class="num" style="width:18%;" th:text="${colLineTotal}">Total ligne</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="line : ${lines}">
+        <td th:text="${line.label}">—</td>
+        <td class="num" th:text="${line.quantity}">1</td>
+        <td class="num" th:text="${#numbers.formatDecimal(line.unitPrice, 1, 2)} + ' €'">0.00 €</td>
+        <td class="num" th:text="${#numbers.formatDecimal(line.lineTotal, 1, 2)} + ' €'">0.00 €</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tot-wrap">
+    <table class="totals">
+      <tr>
+        <td class="tot-lbl" th:text="${subtotalExVatLabel}">Sous-total HT</td>
+        <td class="val" th:text="${#numbers.formatDecimal(subtotal, 1, 2)} + ' €'">0.00 €</td>
+      </tr>
+      <tr>
+        <td class="tot-lbl" th:text="${vatLineLabel}">TVA</td>
+        <td class="val" th:text="${#numbers.formatDecimal(vatAmount, 1, 2)} + ' €'">0.00 €</td>
+      </tr>
+    </table>
+    <div class="grand-box">
+      <table>
+        <tr>
+          <td th:text="${totalTtcLabel}">Total TTC</td>
+          <td class="amt" th:text="${#numbers.formatDecimal(total, 1, 2)} + ' €'">0.00 €</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer" th:text="${footerNote}">Merci</div>
+</div>
+</body>
+</html>
