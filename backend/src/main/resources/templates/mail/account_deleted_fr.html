@@ -1,0 +1,27 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 th:if="${deletedByAdmin}" style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Suppression de votre compte</h1>
+  <h1 th:unless="${deletedByAdmin}" style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Confirmation de la suppression de votre compte</h1>
+  <p style="margin:0 0 12px;font-size:16px;color:#374151;">Bonjour <span th:text="${firstName}">Client</span>,</p>
+
+  <div th:if="${deletedByAdmin}" style="margin:0 0 20px;">
+    <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+      Nous vous informons que votre compte <strong th:text="${brandName}">NHCWash</strong> a été supprimé par un administrateur. Si vous pensez qu'il s'agit d'une erreur, veuillez nous contacter.
+    </p>
+    <p style="margin:0;">
+      <a th:href="${contactUrl}" href="https://example.invalid/contact" style="display:inline-block; padding:10px 20px; background-color:#dc2626; color:#ffffff; text-decoration:none; border-radius:5px; font-weight:bold;">Contactez-nous</a>
+    </p>
+  </div>
+
+  <div th:unless="${deletedByAdmin}">
+    <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+      Nous vous confirmons que votre compte chez <strong th:text="${brandName}">NHCWash</strong> a bien été supprimé sur la plateforme à votre demande.
+    </p>
+  </div>
+
+  <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+    Conformément au RGPD, votre profil public est désactivé et n’est plus accessible en ligne. En Belgique, la législation fiscale et comptable impose toutefois la conservation de vos données de facturation dans nos archives sécurisées pendant <strong>sept (7) ans</strong> avant suppression définitive.
+  </p>
+  <p style="margin:0;font-size:15px;line-height:1.55;color:#4b5563;">
+    Pour toute question, contactez notre support.
+  </p>
+</div>

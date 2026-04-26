@@ -1,0 +1,26 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Zahlung erhalten</h1>
+  <p style="margin:0 0 16px;font-size:16px;color:#374151;">Hallo <span th:text="${firstName}">Kunde</span>,</p>
+  <p style="margin:0 0 28px;font-size:16px;line-height:1.55;color:#374151;">
+    Wir bestätigen den Eingang Ihrer Zahlung von <strong th:text="${totalAmount}">0,00 €</strong>
+    für die Bestellung <strong th:text="${orderRef}">CMD-001</strong>.
+  </p>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+    <tr>
+      <td align="center" style="padding:8px 0;">
+        <a th:href="${orderDetailUrl}"
+           style="display:inline-block;background:#0284c7;color:#ffffff !important;font-size:16px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Bestelldetails
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="padding:8px 0;">
+        <a th:href="${invoicesUrl}"
+           style="display:inline-block;background:#0284c7;color:#ffffff !important;font-size:16px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Rechnung herunterladen
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>

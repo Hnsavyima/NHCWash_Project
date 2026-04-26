@@ -1,0 +1,11 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Order refund confirmation</h1>
+  <p style="margin:0 0 12px;font-size:16px;color:#374151;">Hello <span th:text="${firstName}">Client</span>,</p>
+  <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+    We confirm a refund of <strong th:text="${refundAmount}">0.00 €</strong> for order <strong th:text="${orderRef}">CMD-000</strong>.
+  </p>
+  <p style="margin:0;font-size:15px;line-height:1.55;color:#4b5563;">
+    If you paid by card, it may take a few business days for the amount to appear on your statement, depending on your bank.
+  </p>
+  <p style="margin:16px 0 0;font-size:15px;color:#374151;">Kind regards,<br/><span th:text="${brandName}">NHCWash</span></p>
+</div>

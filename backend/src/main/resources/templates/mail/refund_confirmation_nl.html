@@ -1,0 +1,11 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Bevestiging van terugbetaling</h1>
+  <p style="margin:0 0 12px;font-size:16px;color:#374151;">Hallo <span th:text="${firstName}">Klant</span>,</p>
+  <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+    We bevestigen een terugbetaling van <strong th:text="${refundAmount}">0,00 €</strong> voor bestelling <strong th:text="${orderRef}">CMD-000</strong>.
+  </p>
+  <p style="margin:0;font-size:15px;line-height:1.55;color:#4b5563;">
+    Bij betaling met kaart kan het enkele werkdagen duren voordat het bedrag op uw rekeningafschrift verschijnt, afhankelijk van uw bank.
+  </p>
+  <p style="margin:16px 0 0;font-size:15px;color:#374151;">Met vriendelijke groet,<br/><span th:text="${brandName}">NHCWash</span></p>
+</div>

@@ -1,0 +1,27 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 th:if="${deletedByAdmin}" style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Ihr Konto wurde archiviert</h1>
+  <h1 th:unless="${deletedByAdmin}" style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Bestätigung der Kontolöschung</h1>
+  <p style="margin:0 0 12px;font-size:16px;color:#374151;">Hallo <span th:text="${firstName}">Kunde</span>,</p>
+
+  <div th:if="${deletedByAdmin}" style="margin:0 0 20px;">
+    <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+      Wir informieren Sie, dass Ihr Konto bei <strong th:text="${brandName}">NHCWash</strong> von einem Administrator entfernt wurde. Wenn Sie glauben, dass dies ein Fehler ist, kontaktieren Sie uns bitte.
+    </p>
+    <p style="margin:0;">
+      <a th:href="${contactUrl}" href="https://example.invalid/contact" style="display:inline-block; padding:10px 20px; background-color:#dc2626; color:#ffffff; text-decoration:none; border-radius:5px; font-weight:bold;">Kontakt</a>
+    </p>
+  </div>
+
+  <div th:unless="${deletedByAdmin}">
+    <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+      Wir bestätigen, dass Ihr Konto bei <strong th:text="${brandName}">NHCWash</strong> auf Ihren Wunsch von der Plattform entfernt wurde.
+    </p>
+  </div>
+
+  <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+    Gemäß DSGVO ist Ihr öffentliches Profil deaktiviert und online nicht mehr sichtbar. Das belgische Steuer- und Buchhaltungsrecht verpflichtet uns jedoch, Ihre Rechnungsdaten <strong>sieben (7) Jahre</strong> lang in sicheren Archiven aufzubewahren, bevor sie endgültig gelöscht werden können.
+  </p>
+  <p style="margin:0;font-size:15px;line-height:1.55;color:#4b5563;">
+    Bei Fragen wenden Sie sich bitte an unseren Support.
+  </p>
+</div>

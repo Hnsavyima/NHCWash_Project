@@ -1,0 +1,26 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Votre compte a été réactivé !</h1>
+  <p style="margin:0 0 12px;font-size:16px;color:#374151;">Bonjour <span th:text="${firstName}">Client</span>,</p>
+  <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+    Nous avons le plaisir de vous informer que votre compte <strong th:text="${brandName}">NHCWash</strong> a été réactivé avec succès par notre équipe.
+  </p>
+  <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+    Vous pouvez dès à présent vous connecter à nouveau pour accéder à votre historique et passer de nouvelles commandes.
+  </p>
+  <p style="margin:0 0 28px;font-size:16px;line-height:1.55;color:#374151;">
+    Nous sommes ravis de vous compter à nouveau parmi nos clients !
+  </p>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+    <tr>
+      <td align="center" style="padding:10px 0;">
+        <a th:href="${loginUrl}"
+           style="display:inline-block;background:#0284c7;color:#ffffff !important;font-size:16px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Se connecter à mon compte
+        </a>
+      </td>
+    </tr>
+  </table>
+  <p style="margin:20px 0 0;font-size:13px;color:#6b7280;text-align:center;word-break:break-all;">
+    <a th:href="${loginUrl}" th:text="${loginUrl}" style="color:#0284c7;">Lien</a>
+  </p>
+</div>

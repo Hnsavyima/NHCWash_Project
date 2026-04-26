@@ -1,0 +1,11 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Remboursement de votre commande</h1>
+  <p style="margin:0 0 12px;font-size:16px;color:#374151;">Bonjour <span th:text="${firstName}">Client</span>,</p>
+  <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+    Nous vous confirmons le remboursement de <strong th:text="${refundAmount}">0,00 €</strong> pour la commande <strong th:text="${orderRef}">CMD-000</strong>.
+  </p>
+  <p style="margin:0;font-size:15px;line-height:1.55;color:#4b5563;">
+    Si le paiement a été effectué par carte bancaire, le montant peut mettre quelques jours ouvrés à réapparaître sur votre relevé, selon votre banque.
+  </p>
+  <p style="margin:16px 0 0;font-size:15px;color:#374151;">Cordialement,<br/><span th:text="${brandName}">NHCWash</span></p>
+</div>

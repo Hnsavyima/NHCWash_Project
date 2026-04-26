@@ -1,0 +1,17 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Bestelling bijgewerkt</h1>
+  <p style="margin:0 0 12px;font-size:16px;color:#374151;">Hallo <span th:text="${firstName}">Klant</span>,</p>
+  <p style="margin:0 0 18px;font-size:17px;line-height:1.55;color:#111827;font-weight:600;" th:text="${statusMessage}">Bericht</p>
+  <p style="margin:0 0 6px;font-size:15px;color:#4b5563;"><strong>Referentie</strong>: <span th:text="${orderId}">0</span></p>
+  <p style="margin:0 0 28px;font-size:15px;color:#4b5563;"><strong>Bedrag</strong>: <span th:text="${amountDisplay}">—</span></p>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+    <tr>
+      <td align="center" style="padding:10px 0;">
+        <a th:href="${ordersUrl}"
+           style="display:inline-block;background:#0284c7;color:#ffffff !important;font-size:16px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Mijn bestellingen
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>

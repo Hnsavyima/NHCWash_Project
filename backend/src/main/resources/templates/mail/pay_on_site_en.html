@@ -1,0 +1,24 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Order confirmation</h1>
+  <p style="margin:0 0 16px;font-size:16px;color:#374151;">Hello <span th:text="${firstName}">Client</span>,</p>
+  <p style="margin:0 0 24px;font-size:16px;line-height:1.55;color:#374151;">
+    Your order <strong th:text="${orderRef}">CMD-001</strong> is ready. Please have
+    <strong th:text="${totalAmount}">0.00 €</strong> ready to pay on site.
+  </p>
+  <p style="margin:0 0 28px;text-align:center;">
+    <span style="display:inline-block;padding:14px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;">
+      <img th:src="${qrImgUrl}" width="220" height="220" alt="Order QR code"
+           style="display:block;border-radius:6px;margin:0 auto;"/>
+    </span>
+  </p>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+    <tr>
+      <td align="center" style="padding:10px 0;">
+        <a th:href="${ordersUrl}"
+           style="display:inline-block;background:#0284c7;color:#ffffff !important;font-size:16px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Track my order
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>

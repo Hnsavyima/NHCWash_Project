@@ -1,0 +1,27 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <h1 th:if="${deletedByAdmin}" style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Uw account is gearchiveerd</h1>
+  <h1 th:unless="${deletedByAdmin}" style="margin:0 0 18px;font-size:22px;font-weight:700;color:#111827;">Bevestiging van verwijdering van uw account</h1>
+  <p style="margin:0 0 12px;font-size:16px;color:#374151;">Hallo <span th:text="${firstName}">Klant</span>,</p>
+
+  <div th:if="${deletedByAdmin}" style="margin:0 0 20px;">
+    <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+      Wij informeren u dat uw account bij <strong th:text="${brandName}">NHCWash</strong> door een beheerder is verwijderd. Als u denkt dat dit een vergissing is, neem dan contact met ons op.
+    </p>
+    <p style="margin:0;">
+      <a th:href="${contactUrl}" href="https://example.invalid/contact" style="display:inline-block; padding:10px 20px; background-color:#dc2626; color:#ffffff; text-decoration:none; border-radius:5px; font-weight:bold;">Neem contact op</a>
+    </p>
+  </div>
+
+  <div th:unless="${deletedByAdmin}">
+    <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+      We bevestigen dat uw account bij <strong th:text="${brandName}">NHCWash</strong> op uw verzoek van het platform is verwijderd.
+    </p>
+  </div>
+
+  <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#374151;">
+    Conform de AVG is uw openbaar profiel gedeactiveerd en niet meer online zichtbaar. Het Belgische fiscale en boekhoudkundige recht vereist evenwel dat wij uw facturatiegegevens <strong>zeven (7) jaar</strong> in beveiligde archieven bewaren alvorens definitieve verwijdering.
+  </p>
+  <p style="margin:0;font-size:15px;line-height:1.55;color:#4b5563;">
+    Bij vragen kunt u contact opnemen met onze support.
+  </p>
+</div>
