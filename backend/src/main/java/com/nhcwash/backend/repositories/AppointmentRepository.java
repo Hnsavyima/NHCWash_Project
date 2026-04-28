@@ -1,6 +1,7 @@
 package com.nhcwash.backend.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +18,17 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     long countBySlot_SlotIdAndStatusNot(Long slotId, AppointmentStatus status);
 
+    long countBySlot_SlotId(Long slotId);
+
     @EntityGraph(attributePaths = {"slot", "order", "address"})
     @Query("SELECT a FROM Appointment a WHERE a.order.client.userId = :userId ORDER BY a.createdAt DESC")
     List<Appointment> findWithDetailsByClientUserId(@Param("userId") Long userId);
+
+    @EntityGraph(attributePaths = { "slot", "order", "order.client", "address" })
+    @Query("SELECT a FROM Appointment a ORDER BY a.slot.startAt ASC")
+    List<Appointment> findAllForStaffPlanning();
+
+    @EntityGraph(attributePaths = { "slot", "order", "order.client", "address" })
+    @Query("SELECT a FROM Appointment a WHERE a.appointmentId = :id")
+    Optional<Appointment> findWithStaffDetailsById(@Param("id") Long id);
 }
