@@ -16,6 +16,7 @@ import com.nhcwash.backend.models.entities.InvoiceLine;
 import com.nhcwash.backend.models.entities.Order;
 import com.nhcwash.backend.models.entities.OrderItem;
 import com.nhcwash.backend.repositories.InvoiceRepository;
+import com.nhcwash.backend.repositories.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +27,26 @@ public class InvoiceService {
     private static final BigDecimal DEFAULT_VAT_RATE_PERCENT = BigDecimal.ZERO;
 
     private final InvoiceRepository invoiceRepository;
+    private final OrderRepository orderRepository;
+
+    /**
+     * Idempotent: returns the existing invoice or creates one (same rules as Stripe / manual payment flows).
+     */
+    @Transactional
+    public Invoice findOrCreateInvoiceForOrder(Order order) {
+        return invoiceRepository.findByOrder_OrderId(order.getOrderId())
+                .orElseGet(() -> {
+                    try {
+                        return createInvoiceForOrder(order);
+                    } catch (ResponseStatusException e) {
+                        if (e.getStatusCode() == HttpStatus.CONFLICT) {
+                            return invoiceRepository.findByOrder_OrderId(order.getOrderId())
+                                    .orElseThrow(() -> e);
+                        }
+                        throw e;
+                    }
+                });
+    }
 
     @Transactional
     public Invoice createInvoiceForOrder(Order order) {
@@ -87,5 +108,16 @@ public class InvoiceService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Accès refusé à cette facture");
         }
         return invoice;
+    }
+
+    /**
+     * Full {@link Order} graph for PDF generation (same as {@code GET /api/orders/{id}/invoice}), keyed by invoice id.
+     */
+    @Transactional(readOnly = true)
+    public Order getOrderForInvoicePdfByInvoiceId(Long invoiceId, Long userId) {
+        Invoice invoice = getInvoiceByIdForUser(invoiceId, userId);
+        Long orderId = invoice.getOrder().getOrderId();
+        return orderRepository.findWithDetailsByIdAndClient_UserId(orderId, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Commande introuvable"));
     }
 }

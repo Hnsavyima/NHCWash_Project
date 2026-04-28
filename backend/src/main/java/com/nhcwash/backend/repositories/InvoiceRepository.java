@@ -12,7 +12,7 @@ import com.nhcwash.backend.models.entities.Invoice;
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     Optional<Invoice> findByOrder_OrderId(Long orderId);
 
-    @EntityGraph(attributePaths = {"order", "order.client", "lines"})
+    @EntityGraph(attributePaths = {"order", "order.client", "order.payments", "lines"})
     @Query("SELECT i FROM Invoice i WHERE i.invoiceId = :id")
     Optional<Invoice> findWithDetailsById(@Param("id") Long id);
 }
