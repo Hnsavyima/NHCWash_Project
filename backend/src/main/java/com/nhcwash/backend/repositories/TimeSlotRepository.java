@@ -9,6 +9,8 @@ import com.nhcwash.backend.models.enumerations.SlotType;
 
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
 
+    List<TimeSlot> findAllByOrderByStartAtAsc();
+
     List<TimeSlot> findByIsActiveTrueOrderByStartAtAsc();
 
     List<TimeSlot> findByIsActiveTrueAndSlotTypeOrderByStartAtAsc(SlotType slotType);
