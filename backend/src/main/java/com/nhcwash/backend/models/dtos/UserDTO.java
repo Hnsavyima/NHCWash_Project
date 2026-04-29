@@ -10,6 +10,8 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String phone;
-    private String languagePreference;
+    /** Persisted locale for UI and emails: FR, EN, NL, DE */
+    private String preferredLanguage;
+    private String avatarUrl;
     private Set<String> roles; // On ne renvoie que les noms des rôles
 }

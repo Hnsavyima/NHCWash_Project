@@ -4,20 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/** Request body for PATCH /api/users/me/language */
 @Data
-public class UserUpdateDTO {
+public class PreferredLanguageBody {
 
     @NotBlank
-    @Size(max = 80)
-    private String firstName;
-
-    @NotBlank
-    @Size(max = 80)
-    private String lastName;
-
-    @Size(max = 30)
-    private String phone;
-
     @Size(max = 8)
     private String preferredLanguage;
 }
