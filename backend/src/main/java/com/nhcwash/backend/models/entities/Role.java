@@ -14,5 +14,5 @@ public class Role {
     private Long roleId;
 
     @Column(nullable = false, length = 30)
-    private String name; // CLIENT | EMPLOYEE | ADMIN
+    private String name; // ROLE_CLIENT | ROLE_EMPLOYEE | ROLE_ADMIN (Spring Security convention)
 }
