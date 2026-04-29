@@ -39,6 +39,26 @@ public class User {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
+    /** Soft-delete: archived user, hidden from normal flows; admin may restore. */
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
+    /** GDPR soft-delete timestamp; when set, login is blocked until admin restore. */
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    /** Optional message shown to the user when the account is suspended (inactive but not archived). */
+    @Column(name = "suspension_reason", length = 2000)
+    private String suspensionReason;
+
+    /** Public URL path for static serving, e.g. /uploads/avatars/{uuid}.jpg */
+    @Column(name = "avatar_url", length = 512)
+    private String avatarUrl;
+
+    /** UI / email locale: FR, EN, NL, or DE */
+    @Column(name = "preferred_language", length = 8)
+    private String preferredLanguage = "FR";
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -55,6 +75,9 @@ public class User {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (preferredLanguage == null || preferredLanguage.isBlank()) {
+            preferredLanguage = "FR";
+        }
     }
 
     @PreUpdate
