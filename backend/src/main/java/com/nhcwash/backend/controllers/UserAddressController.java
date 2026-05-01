@@ -23,11 +23,14 @@ import com.nhcwash.backend.models.dtos.UserAddressRequestDTO;
 import com.nhcwash.backend.repositories.UserRepository;
 import com.nhcwash.backend.services.UserAddressService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/addresses")
+@Tag(name = "Adresses", description = "Adresses de livraison du client")
 @RequiredArgsConstructor
 public class UserAddressController {
 
@@ -36,6 +39,7 @@ public class UserAddressController {
     private final DtoConverter dtoConverter;
 
     @GetMapping
+    @Operation(summary = "Liste des adresses")
     public ResponseEntity<List<UserAddressDTO>> listAddresses() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()
@@ -55,6 +59,7 @@ public class UserAddressController {
     }
 
     @PostMapping
+    @Operation(summary = "Créer une adresse")
     public ResponseEntity<UserAddressDTO> createAddress(@Valid @RequestBody UserAddressRequestDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()
@@ -71,7 +76,8 @@ public class UserAddressController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable("id") Long id) {
+    @Operation(summary = "Supprimer une adresse")
+    public ResponseEntity<Void> deleteAddress(@PathVariable(name = "id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()
                 || authentication instanceof AnonymousAuthenticationToken) {
@@ -88,7 +94,8 @@ public class UserAddressController {
     }
 
     @PutMapping("/{id}/default")
-    public ResponseEntity<UserAddressDTO> setDefault(@PathVariable("id") Long id) {
+    @Operation(summary = "Définir une adresse par défaut")
+    public ResponseEntity<UserAddressDTO> setDefault(@PathVariable(name = "id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()
                 || authentication instanceof AnonymousAuthenticationToken) {
