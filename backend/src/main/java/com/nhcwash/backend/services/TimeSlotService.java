@@ -1,5 +1,6 @@
 package com.nhcwash.backend.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +33,21 @@ public class TimeSlotService {
                 .orElseGet(() -> timeSlotRepository.findByIsActiveTrueOrderByStartAtAsc());
 
         return slots.stream().map(this::toDtoWithRemaining).collect(Collectors.toList());
+    }
+
+    /** Active slots whose {@link TimeSlot#getStartAt()} falls on {@code date} (local calendar day). */
+    @Transactional(readOnly = true)
+    public List<TimeSlotDTO> listActiveSlotsForDate(LocalDate date, Optional<SlotType> typeFilter) {
+        if (date == null) {
+            return listActiveSlots(typeFilter);
+        }
+        List<TimeSlot> base = typeFilter
+                .map(t -> timeSlotRepository.findByIsActiveTrueAndSlotTypeOrderByStartAtAsc(t))
+                .orElseGet(() -> timeSlotRepository.findByIsActiveTrueOrderByStartAtAsc());
+        return base.stream()
+                .filter(s -> s.getStartAt() != null && date.equals(s.getStartAt().toLocalDate()))
+                .map(this::toDtoWithRemaining)
+                .collect(Collectors.toList());
     }
 
     private TimeSlotDTO toDtoWithRemaining(TimeSlot slot) {
