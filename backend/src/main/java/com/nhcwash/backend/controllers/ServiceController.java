@@ -12,10 +12,13 @@ import com.nhcwash.backend.models.dtos.DTOConvertor.DtoConverter;
 import com.nhcwash.backend.models.dtos.ServiceDTO;
 import com.nhcwash.backend.repositories.ServiceRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/services")
+@Tag(name = "Services (catalogue)", description = "Liste publique des prestations actives")
 @RequiredArgsConstructor
 public class ServiceController {
 
@@ -23,8 +26,10 @@ public class ServiceController {
     private final DtoConverter converter;
 
     @GetMapping
-    public List<ServiceDTO> getAll(@RequestParam(defaultValue = "fr") String lang) {
+    @Operation(summary = "Liste des services actifs")
+    public List<ServiceDTO> getAll(@RequestParam(name = "lang", defaultValue = "fr") String lang) {
         return serviceRepository.findAll().stream()
+                .filter(s -> Boolean.TRUE.equals(s.getIsActive()))
                 .map(s -> converter.toServiceDto(s, lang))
                 .collect(Collectors.toList());
     }
