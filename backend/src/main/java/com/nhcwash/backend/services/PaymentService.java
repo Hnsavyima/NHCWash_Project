@@ -98,7 +98,6 @@ public class PaymentService {
             orderRepository.save(order);
 
             Invoice invoice = invoiceService.findOrCreateInvoiceForOrder(order);
-            schedulePaymentReceiptEmailAfterCommit(orderId);
             return new PaymentProcessingResult(payment, invoice);
         }
     }
@@ -232,20 +231,4 @@ public class PaymentService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    /**
-     * Receipt email loads the order in an {@code @Async} thread; scheduling after commit avoids reading stale DB
-     * state (e.g. {@code final_total} still null → "0 €").
-     */
-    private void schedulePaymentReceiptEmailAfterCommit(Long orderId) {
-        if (TransactionSynchronizationManager.isSynchronizationActive()) {
-            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
-                @Override
-                public void afterCommit() {
-                    mailService.sendPaymentReceipt(orderId);
-                }
-            });
-        } else {
-            mailService.sendPaymentReceipt(orderId);
-        }
-    }
 }
